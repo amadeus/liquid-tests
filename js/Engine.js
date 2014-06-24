@@ -52,6 +52,8 @@ var Engine = Base.extend({
 			(window.innerWidth / 2 / C) * (window.innerHeight / 2 / C)
 		) >> 0;
 
+		this.totalParticles = Math.min(this.totalParticles, 400);
+
 		this.particles = new Array(this.totalParticles);
 		for (p = 0; p < this.particles.length; p++) {
 			this.particles[p] = new Engine.Particle(
