@@ -18,11 +18,12 @@ var Engine = Base.extend({
 
 	scale: window.devicePixelRatio || 1,
 
+	// Default settings
 	gravity: 900,
 	smoothingRadius: 50,
-	stiff: 80,
-	stiffN: 80,
-	restDensity: 4,
+	stiff: 1000,
+	stiffN: 4000,
+	restDensity: 3,
 
 	particles: null,
 
@@ -33,18 +34,23 @@ var Engine = Base.extend({
 	frameCounter: 0,
 
 	constructor: function(id){
-		var p;
+		var p, C;
 
 		this.canvas = document.getElementById(id);
+		this.context = this.canvas.getContext('2d');
 
 		this.resize = this.resize.bind(this);
 		this.resize();
 		window.addEventListener('resize', this.resize, false);
 
-		this.context = this.canvas.getContext('2d');
-		this.context.fillStyle = '#000';
-
 		this.controls = new Engine.Controls(this);
+
+		// A hacky way to generate a safe-ish range of
+		// particles, based on screensize.
+		C = 20;
+		this.totalParticles = (
+			(window.innerWidth / 2 / C) * (window.innerHeight / 2 / C)
+		) >> 0;
 
 		this.particles = new Array(this.totalParticles);
 		for (p = 0; p < this.particles.length; p++) {
@@ -63,21 +69,40 @@ var Engine = Base.extend({
 		this._last = Date.now();
 		this.render = this.render.bind(this);
 
+		this.setupFountain();
+		this.render();
+	},
+
+	setupFountain: function(){
+		var eventStart, eventEnd;
+
+		if (
+			'ontouchstart' in window ||
+			(
+				window.DocumentTouch &&
+				document instanceof window.DocumentTouch
+			)
+		) {
+			eventStart = 'touchstart';
+			eventEnd   = 'touchend';
+		} else {
+			eventStart = 'mousedown';
+			eventEnd   = 'mouseup';
+		}
+
 		this._handleMouseDown = this._handleMouseDown.bind(this);
 		this.canvas.addEventListener(
-			'mousedown',
+			eventStart,
 			this._handleMouseDown,
 			false
 		);
 
 		this._handleMouseUp = this._handleMouseUp.bind(this);
 		this.canvas.addEventListener(
-			'mouseup',
+			eventEnd,
 			this._handleMouseUp,
 			false
 		);
-
-		this.render();
 	},
 
 	_handleMouseDown: function(){
@@ -95,6 +120,10 @@ var Engine = Base.extend({
 
 		this.canvas.width  = this.width  * this.scale;
 		this.canvas.height = this.height * this.scale;
+
+		this.context.fillStyle = '#3acaff';
+
+		window.scrollTo(0, 0);
 	},
 
 	render: function(){
@@ -220,11 +249,9 @@ var Engine = Base.extend({
 
 		this.frameCounter++;
 		if (this.addParticle && this.frameCounter >= 5) {
-			this.particles.push(
-				new Engine.Particle(
-					this.width / 2 + Engine.getRandomArbitrary(0, 20) - 10,
-					100
-				)
+			this.particles[this.particles.length] = new Engine.Particle(
+				this.width / 2 + Engine.getRandomArbitrary(0, this.smoothingRadius) - this.smoothingRadius / 2,
+				100 + Engine.getRandomArbitrary(0, this.smoothingRadius) - this.smoothingRadius / 2
 			);
 			this.controls.setTotalParticles(this.particles.length);
 		}

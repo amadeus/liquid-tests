@@ -6,6 +6,9 @@ html, body {
 	width:100%;
 	height:100%;
 	font-family:Helvetica Neue, Helvetica, Arial, sans-serif;
+	color:#fff;
+
+	background:#1a1a1a;
 }
 
 canvas {
@@ -37,17 +40,38 @@ canvas {
 	width:220px;
 	z-index:1;
 	padding:10px;
-	background-color:rgba(255,255,255,0.5);
-	border-left:1px solid #ccc;
-	border-bottom:1px solid #ccc;
+	background-color:rgba(255,255,255,0.1);
+}
+
+.controls[data-minimize] label,
+.controls[data-minimize] input {
+	display:none;
 }
 
 .controls h1 {
+	position:relative;
 	font-size:14px;
 	line-height:14px;
 	margin:0 0 10px;
 	padding:0;
 	text-transform:uppercase;
+	cursor:pointer;
+}
+
+.controls .inner-container {
+	position:relative;
+}
+
+.controls h1:after {
+	content:'-';
+	position:absolute;
+	display:block;
+	top:0;
+	right:0;
+}
+
+.controls[data-minimize] h1:after {
+	content:'+';
 }
 
 .controls label {
@@ -58,10 +82,24 @@ canvas {
 }
 
 .controls input {
-	width:200px;
+	position:relative;
+	display:block;
+	width:100%;
 	margin:2px 0;
 }
 
 .controls div {
 	font-size:10px;
+}
+
+@media screen and (max-width:640px) {
+	.controls {
+		width:100%;
+		border-left:none;
+	}
+
+	.controls input[type="range"]::-webkit-slider-thumb {
+		width:30px;
+		height:30px;
+	}
 }

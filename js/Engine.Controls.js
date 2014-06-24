@@ -14,11 +14,18 @@ if (!String.prototype.substitute) {
 
 Engine.Controls = Base.extend({
 
+	shown: true,
+
 	constructor: function(engine){
 		this.engine = engine;
 
 		this.container = document.createElement('div');
 		this.container.className = 'controls';
+
+		// Hide the controls on mobile, by default...
+		if (window.innerWidth <= 640) {
+			this.toggleControls();
+		}
 
 		this.generateControls();
 
@@ -26,14 +33,14 @@ Engine.Controls = Base.extend({
 	},
 
 	generateControls: function(){
-		var html = '<h1>Environment Settings</h1>';
+		var html = '<h1>Environment Settings</h1><div class="inner-container">';
 
 		Engine.Controls.Ranges.forEach(function(obj){
 			obj.value = this.engine[obj.id];
 			html += Engine.Controls.ControlTemplate.substitute(obj);
 		}, this);
 
-		html += '<div>Total Particles: <span id="total-particles">0</span></div>';
+		html += '</div><div>Total Particles: <span id="total-particles">0</span></div>';
 
 		this.container.innerHTML += html;
 
@@ -59,6 +66,28 @@ Engine.Controls = Base.extend({
 			this._handleChange.bind(this),
 			false
 		);
+
+		this.controlTitle = this.container.querySelector('h1');
+
+		this.controlTitle.addEventListener(
+			'click',
+			this.toggleControls.bind(this),
+			false
+		);
+	},
+
+	toggleControls: function(event){
+		if (event && event.preventDefault) {
+			event.preventDefault();
+		}
+
+		if (this.shown) {
+			this.container.setAttribute('data-minimize', 1);
+			this.shown = false;
+		} else {
+			this.container.removeAttribute('data-minimize');
+			this.shown = true;
+		}
 	},
 
 	_handleChange: function(event){
