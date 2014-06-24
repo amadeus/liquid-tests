@@ -1,6 +1,5 @@
 (function(Base, Vector){
 
-
 if (!window.requestAnimationFrame) {
 	window.requestAnimationFrame = (function(){
 		return  window.requestAnimationFrame   ||
@@ -33,7 +32,7 @@ var Engine = Base.extend({
 
 	particles: null,
 
-	totalParticles: 400,
+	totalParticles: 200,
 
 	velocityLimit: 500,
 
@@ -50,6 +49,8 @@ var Engine = Base.extend({
 
 		this.context = this.canvas.getContext('2d');
 		this.context.fillStyle = '#000';
+
+		this.controls = new Engine.Controls(this);
 
 		this.particles = new Array(this.totalParticles);
 		for (p = 0; p < this.particles.length; p++) {
@@ -135,7 +136,7 @@ var Engine = Base.extend({
 			}
 			if (particle.pos.x < 10) {
 				particle.pos.x = 10;
-				particle.vel.x = -(particle.vel.x * 0.1);
+				particle.vel.x = -(particle.vel.x * 0.01);
 			}
 
 			particle.posOld.set(particle.pos);
@@ -183,7 +184,7 @@ var Engine = Base.extend({
 		// Iterate through particle pairs
 		for (p = 0, len = pairs.length; p < len; p++) {
 			pair = pairs[p];
-			press = pair[0].press + pair[1].press;
+			press  = pair[0].press  + pair[1].press;
 			pressN = pair[0].pressN + pair[1].pressN;
 			displace = (press * pair.q2 + pressN * pair.q3) * (pow(dt, 2));
 			a2bN = this.directionNormal(pair[0], pair[1]);
@@ -241,53 +242,6 @@ var Engine = Base.extend({
 
 Engine.getRandomArbitrary = function(min, max) {
     return Math.random() * (max - min) + min;
-};
-
-Engine.Particle = function(x, y){
-	this.pos = new Vector(x, y);
-	this.posOld = this.pos.clone();
-	this.vel = Vector.coerce(this.vel);
-};
-
-Engine.Particle.prototype = {
-
-	pos: {
-		x: 0,
-		y: 0
-	},
-
-	posOld: {
-		x: 0,
-		y: 0
-	},
-
-	vel: {
-		x: 0,
-		y: 0
-	},
-
-	dens: 0,
-	densN: 0,
-
-	draw: function(ctx, scale){
-		ctx.beginPath();
-		ctx.arc(
-			this.pos.x * scale,
-			this.pos.y * scale,
-			2 * scale,
-			0,
-			Math.PI * 2,
-			false
-		);
-		ctx.fill();
-		// ctx.fillRect(
-		//     this.pos.x * scale,
-		//     this.pos.y * scale,
-		//     2 * scale,
-		//     2 * scale
-		// );
-	}
-
 };
 
 window.Engine = Engine;
