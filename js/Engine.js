@@ -18,12 +18,6 @@ var Engine = Base.extend({
 
 	scale: window.devicePixelRatio || 1,
 
-	// gravity: 400,
-	// smoothingRadius: 30,
-	// stiff: 3000,
-	// stiffN: 100000,
-	// restDensity: 0,
-
 	gravity: 900,
 	smoothingRadius: 50,
 	stiff: 80,
@@ -32,7 +26,7 @@ var Engine = Base.extend({
 
 	particles: null,
 
-	totalParticles: 200,
+	totalParticles: 400,
 
 	velocityLimit: 500,
 
@@ -59,6 +53,8 @@ var Engine = Base.extend({
 				Engine.getRandomArbitrary(0, this.height / 2) - this.height / 2
 			);
 		}
+
+		this.controls.setTotalParticles(this.particles.length);
 
 		window.ptest = this.particles[0];
 
@@ -217,9 +213,11 @@ var Engine = Base.extend({
 
 		this.frameCounter++;
 		if (this.addParticle && this.frameCounter >= 5) {
-			this.particles.push(new Engine.Particle(this.width / 2 - 10, 100));
-			this.particles.push(new Engine.Particle(this.width / 2, 100));
-			this.particles.push(new Engine.Particle(this.width / 2 + 10, 100));
+			this.particles.push(new Engine.Particle(this.width / 2 - this.restDensity, 100));
+			this.particles.push(new Engine.Particle(this.width / 2 + this.restDensity, 100));
+			this.particles.push(new Engine.Particle(this.width / 2 - this.restDensity, 100 + this.restDensity * 2));
+			this.particles.push(new Engine.Particle(this.width / 2 + this.restDensity, 100 + this.restDensity * 2));
+			this.controls.setTotalParticles(this.particles.length);
 		}
 		if (this.frameCounter >= 5) {
 			this.frameCounter = 0;

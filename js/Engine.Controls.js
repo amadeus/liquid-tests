@@ -22,8 +22,6 @@ Engine.Controls = Base.extend({
 
 		this.generateControls();
 
-		document.body.appendChild(this.container);
-
 		this.attach();
 	},
 
@@ -31,10 +29,22 @@ Engine.Controls = Base.extend({
 		var html = '<h1>Environment Settings</h1>';
 
 		Engine.Controls.Ranges.forEach(function(obj){
+			obj.value = this.engine[obj.id];
 			html += Engine.Controls.ControlTemplate.substitute(obj);
-		});
+		}, this);
+
+		html += '<div>Total Particles: <span id="total-particles">0</span></div>';
 
 		this.container.innerHTML += html;
+
+		document.body.appendChild(this.container);
+
+		this.totalParticle = document.getElementById('total-particles');
+	},
+
+	setTotalParticles: function(total){
+		this.totalParticle.innerHTML = total || 0;
+		return this;
 	},
 
 	attach: function(){
@@ -104,7 +114,7 @@ Engine.Controls.Ranges = [
 Engine.Controls.ControlTemplate = [
 	'<label for="{id}">',
 		'{label}: ',
-		'<span id="{id}_value">0</span>',
+		'<span id="{id}_value">{value}</span>',
 	'</label>',
 	'<input ',
 		'type="range" ',
@@ -112,6 +122,7 @@ Engine.Controls.ControlTemplate = [
 		'min="{min}" ',
 		'max="{max}" ',
 		'step="{step}" ',
+		'value="{value}" ',
 	'/>'
 ].join('');
 
