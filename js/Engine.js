@@ -26,7 +26,7 @@ var Engine = Base.extend({
 
 	particles: null,
 
-	totalParticles: 400,
+	totalParticles: 200,
 
 	velocityLimit: 500,
 
@@ -49,8 +49,8 @@ var Engine = Base.extend({
 		this.particles = new Array(this.totalParticles);
 		for (p = 0; p < this.particles.length; p++) {
 			this.particles[p] = new Engine.Particle(
-				Engine.getRandomArbitrary(0, 200),
-				Engine.getRandomArbitrary(0, this.height / 2) - this.height / 2
+				Engine.getRandomArbitrary(this.width / 4, this.width - this.width / 4),
+				Engine.getRandomArbitrary(20, this.height / 2)
 			);
 		}
 
@@ -124,12 +124,19 @@ var Engine = Base.extend({
 
 			if (particle.pos.y > this.height - 10) {
 				particle.pos.y = this.height - 10;
-				particle.vel.y = -(particle.vel.y * 0.3);
+				particle.vel.y = -(particle.vel.y * 0.1);
 			}
+
+			if (particle.pos.y < 10) {
+				particle.pos.y = 10;
+				particle.vel.y = -(particle.vel.y * 0.1);
+			}
+
 			if (particle.pos.x > this.width - 10) {
 				particle.pos.x = this.width - 10;
-				particle.vel.x = -(particle.vel.x * 0.1);
+				particle.vel.x = -(particle.vel.x * 0.01);
 			}
+
 			if (particle.pos.x < 10) {
 				particle.pos.x = 10;
 				particle.vel.x = -(particle.vel.x * 0.01);
@@ -213,10 +220,12 @@ var Engine = Base.extend({
 
 		this.frameCounter++;
 		if (this.addParticle && this.frameCounter >= 5) {
-			this.particles.push(new Engine.Particle(this.width / 2 - this.restDensity, 100));
-			this.particles.push(new Engine.Particle(this.width / 2 + this.restDensity, 100));
-			this.particles.push(new Engine.Particle(this.width / 2 - this.restDensity, 100 + this.restDensity * 2));
-			this.particles.push(new Engine.Particle(this.width / 2 + this.restDensity, 100 + this.restDensity * 2));
+			this.particles.push(
+				new Engine.Particle(
+					this.width / 2 + Engine.getRandomArbitrary(0, 20) - 10,
+					100
+				)
+			);
 			this.controls.setTotalParticles(this.particles.length);
 		}
 		if (this.frameCounter >= 5) {
