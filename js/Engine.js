@@ -19,10 +19,10 @@ var Engine = Base.extend({
 	scale: window.devicePixelRatio || 1,
 
 	// Default settings
-	gravity: 900,
-	smoothingRadius: 50,
-	stiff: 1000,
-	stiffN: 4000,
+	gravity: 1400,
+	smoothingRadius: 40,
+	stiff: 100,
+	stiffN: 2000,
 	restDensity: 3,
 
 	particles: null,
