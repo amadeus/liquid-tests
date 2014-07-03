@@ -34,7 +34,7 @@ var Engine = Base.extend({
 	frameCounter: 0,
 
 	constructor: function(id){
-		var p, C;
+		var p, C, row, rowCount, mod, i, rand;
 
 		this.canvas = document.getElementById(id);
 		this.context = this.canvas.getContext('2d');
