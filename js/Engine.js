@@ -274,7 +274,7 @@ var Engine = Base.extend({
 	distanceBetween: function(p1, p2){
 		var xd = (p1.pos.x) - (p2.pos.x);
 		var yd = (p1.pos.y) - (p2.pos.y);
-		return sqrt(xd * xd + yd * yd );
+		return sqrt(xd * xd + yd * yd ) || 0.001;
 	},
 
 	directionNormal: function(p1, p2){
