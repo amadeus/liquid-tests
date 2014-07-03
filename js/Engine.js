@@ -54,11 +54,18 @@ var Engine = Base.extend({
 
 		this.totalParticles = Math.min(this.totalParticles, 400);
 
+		i  = this.smoothingRadius / 2;
+		rowCount = this.width / 2 / i >> 0;
+		rand = Engine.getRandomArbitrary;
+
 		this.particles = new Array(this.totalParticles);
 		for (p = 0; p < this.particles.length; p++) {
+			mod = p % rowCount;
+			row = (p - mod) / rowCount;
+
 			this.particles[p] = new Engine.Particle(
-				Engine.getRandomArbitrary(this.width / 4, this.width - this.width / 4),
-				Engine.getRandomArbitrary(20, this.height / 2)
+				(this.width / 4) + mod * i + (i / 4 - rand(0, i / 2)),
+				row * i + (i / 4 - rand(0, i / 2)) + 40
 			);
 		}
 
