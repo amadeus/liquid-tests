@@ -111,7 +111,7 @@ Engine.Controls.Ranges = [
 		id    : 'gravity',
 		label : 'Gravity',
 		min   : 0,
-		max   : 1400,
+		max   : 4000,
 		step  : 1
 	}, {
 		id    : 'smoothingRadius',
