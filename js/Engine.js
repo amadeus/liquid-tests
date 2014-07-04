@@ -26,7 +26,7 @@ Engine = Base.extend({
 	// stiff: 0.001,
 	stiff: 200,
 	stiffN: 2000,
-	restDensity: 3,
+	restDensity: 10,
 	particles: null,
 	totalParticles: 200,
 	velocityLimit: 500,
@@ -163,22 +163,22 @@ Engine = Base.extend({
 
 			if (particle.pos.y > this.height + this.radius) {
 				particle.pos.y = this.height + this.radius;
-				particle.vel.y = 0
+				particle.vel.y = 0;
 			}
 
 			if (particle.pos.y < -(this.radius)) {
 				particle.pos.y = -(this.radius);
-				particle.vel.y = 0
+				particle.vel.y = 0;
 			}
 
 			if (particle.pos.x > this.width + this.radius) {
 				particle.pos.x = this.width + this.radius;
-				particle.vel.x = 0
+				particle.vel.x = 0;
 			}
 
 			if (particle.pos.x < -this.radius) {
 				particle.pos.x = -this.radius;
-				particle.vel.x = 0
+				particle.vel.x = 0;
 			}
 
 			particle.posOld.set(particle.pos);
