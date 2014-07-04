@@ -135,7 +135,13 @@ Engine.Controls.Ranges = [
 		id    : 'restDensity',
 		label : 'Rest Density',
 		min   : 1,
-		max   : 40,
+		max   : 10,
+		step  : 0.01
+	}, {
+		id    : 'radius',
+		label : 'Particle Radius',
+		min   : 1,
+		max   : 20,
 		step  : 1
 	}
 ];

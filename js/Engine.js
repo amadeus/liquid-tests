@@ -1,5 +1,7 @@
 (function(Base, Vector){
 
+var sqrt, pow, Engine;
+
 if (!window.requestAnimationFrame) {
 	window.requestAnimationFrame = (function(){
 		return  window.requestAnimationFrame   ||
@@ -11,27 +13,25 @@ if (!window.requestAnimationFrame) {
 	})();
 }
 
-var sqrt = Math.sqrt,
-	pow = Math.pow;
+sqrt = Math.sqrt;
+pow  = Math.pow;
 
-var Engine = Base.extend({
+Engine = Base.extend({
 
 	scale: window.devicePixelRatio || 1,
 
 	// Default settings
 	gravity: 2000,
 	smoothingRadius: 50,
-	stiff: 0.001,
+	// stiff: 0.001,
+	stiff: 200,
 	stiffN: 2000,
-	restDensity: 6,
-
+	restDensity: 3,
 	particles: null,
-
 	totalParticles: 200,
-
 	velocityLimit: 500,
-
 	frameCounter: 0,
+	radius: 6,
 
 	constructor: function(id){
 		var p, C, row, rowCount, mod, i, rand;
@@ -65,7 +65,8 @@ var Engine = Base.extend({
 
 			this.particles[p] = new Engine.Particle(
 				(this.width / 4) + mod * i + (i / 4 - rand(0, i / 2)),
-				row * i + (i / 4 - rand(0, i / 2)) + 40
+				row * i + (i / 4 - rand(0, i / 2)),
+				this.radius
 			);
 		}
 
@@ -115,7 +116,6 @@ var Engine = Base.extend({
 	},
 
 	_handleMouseDown: function(){
-		dbg.log('mouse down');
 		this.addParticle = true;
 	},
 
@@ -150,6 +150,7 @@ var Engine = Base.extend({
 			a2bN;
 
 		dt = Math.min(dt, 0.017);
+
 		// Iterate through particles, setup positions
 		for (p = 0, len = particles.length; p < len; p++) {
 			particle = particles[p];
@@ -160,24 +161,24 @@ var Engine = Base.extend({
 				).div(dt)
 			);
 
-			if (particle.pos.y > this.height - 10) {
-				particle.pos.y = this.height - 10;
-				particle.vel.y = -(particle.vel.y * 0.1);
+			if (particle.pos.y > this.height + this.radius) {
+				particle.pos.y = this.height + this.radius;
+				particle.vel.y = 0
 			}
 
-			if (particle.pos.y < 10) {
-				particle.pos.y = 10;
-				particle.vel.y = -(particle.vel.y * 0.1);
+			if (particle.pos.y < -(this.radius)) {
+				particle.pos.y = -(this.radius);
+				particle.vel.y = 0
 			}
 
-			if (particle.pos.x > this.width - 10) {
-				particle.pos.x = this.width - 10;
-				particle.vel.x = -(particle.vel.x * 0.01);
+			if (particle.pos.x > this.width + this.radius) {
+				particle.pos.x = this.width + this.radius;
+				particle.vel.x = 0
 			}
 
-			if (particle.pos.x < 10) {
-				particle.pos.x = 10;
-				particle.vel.x = -(particle.vel.x * 0.01);
+			if (particle.pos.x < -this.radius) {
+				particle.pos.x = -this.radius;
+				particle.vel.x = 0
 			}
 
 			particle.posOld.set(particle.pos);
@@ -246,7 +247,7 @@ var Engine = Base.extend({
 		for (p = 0, len = particles.length; p < len; p++) {
 			particle = particles[p];
 
-			particle.draw(this.context, scale);
+			particle.draw(this.context, this.radius, scale);
 		}
 
 		particle = undefined;

@@ -29,12 +29,12 @@ Engine.Particle.prototype = {
 	dens: 0,
 	densN: 0,
 
-	draw: function(ctx, scale){
+	draw: function(ctx, radius, scale){
 		ctx.beginPath();
 		ctx.arc(
 			this.pos.x * scale,
 			this.pos.y * scale,
-			2 * scale,
+			radius * scale,
 			0,
 			Math.PI * 2,
 			false
