@@ -21,17 +21,17 @@ Engine = Base.extend({
 	scale: window.devicePixelRatio || 1,
 
 	// Default settings
-	gravity: 2000,
+	gravity: 4000,
 	smoothingRadius: 50,
 	// stiff: 0.001,
-	stiff: 200,
-	stiffN: 2000,
-	restDensity: 10,
+	stiff: 400,
+	stiffN: 2500,
+	restDensity: 6,
 	particles: null,
 	totalParticles: 200,
 	velocityLimit: 500,
 	frameCounter: 0,
-	radius: 6,
+	radius: 2,
 
 	constructor: function(id){
 		var p, C, row, rowCount, mod, i, rand;
