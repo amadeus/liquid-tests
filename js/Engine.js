@@ -65,8 +65,7 @@ Engine = Base.extend({
 
 			this.particles[p] = new Engine.Particle(
 				(this.width / 4) + mod * i + (i / 4 - rand(0, i / 2)),
-				row * i + (i / 4 - rand(0, i / 2)),
-				this.radius
+				row * i + (i / 4 - rand(0, i / 2))
 			);
 		}
 
@@ -145,6 +144,7 @@ Engine = Base.extend({
 				y: 0
 			},
 			scale = this.scale,
+			rand = Engine.getRandomArbitrary,
 			particle, particle2,
 			Q, pair, p, p2, len, press, pressN, displace,
 			a2bN;
@@ -260,8 +260,8 @@ Engine = Base.extend({
 		this.frameCounter++;
 		if (this.addParticle && this.frameCounter >= 5) {
 			this.particles[this.particles.length] = new Engine.Particle(
-				this.width / 2 + Engine.getRandomArbitrary(0, this.smoothingRadius) - this.smoothingRadius / 2,
-				100 + Engine.getRandomArbitrary(0, this.smoothingRadius) - this.smoothingRadius / 2
+				this.width / 2 + rand(0, this.smoothingRadius) - this.smoothingRadius / 2,
+				100 + rand(0, this.smoothingRadius) - this.smoothingRadius / 2
 			);
 			this.controls.setTotalParticles(this.particles.length);
 		}
