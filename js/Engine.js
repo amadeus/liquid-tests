@@ -21,17 +21,17 @@ Engine = Base.extend({
 	scale: window.devicePixelRatio || 1,
 
 	// Default settings
-	gravity: 4000,
+	gravity: 1800,
 	smoothingRadius: 50,
 	// stiff: 0.001,
-	stiff: 400,
-	stiffN: 2500,
-	restDensity: 6,
-	particles: null,
+	stiff: 1500,
+	stiffN: 2630,
+	restDensity: 5.5,
 	totalParticles: 200,
-	velocityLimit: 500,
 	frameCounter: 0,
-	radius: 2,
+	radius: 4,
+
+	particles: null,
 
 	constructor: function(id){
 		var p, C, row, rowCount, mod, i, rand;
@@ -52,7 +52,7 @@ Engine = Base.extend({
 			(window.innerWidth / 2 / C) * (window.innerHeight / 2 / C)
 		) >> 0;
 
-		this.totalParticles = Math.min(this.totalParticles, 400);
+		this.totalParticles = Math.max(150, Math.min(this.totalParticles, 400));
 
 		i  = this.smoothingRadius / 2;
 		rowCount = this.width / 2 / i >> 0;
@@ -129,7 +129,7 @@ Engine = Base.extend({
 		this.canvas.width  = this.width  * this.scale;
 		this.canvas.height = this.height * this.scale;
 
-		this.context.fillStyle = '#3acaff';
+		this.context.fillStyle = 'rgba(58,202,255,1)';
 
 		window.scrollTo(0, 0);
 	},
