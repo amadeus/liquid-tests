@@ -25,7 +25,7 @@ Engine = Base.extend({
 	smoothingRadius: 56,
 	// stiff: 0.001,
 	stiff: 1425,
-	stiffN: 1920,
+	stiffN: 1520,
 	restDensity: 4.35,
 	totalParticles: 200,
 	frameCounter: 0,
@@ -64,7 +64,7 @@ Engine = Base.extend({
 			row = (p - mod) / rowCount;
 
 			this.particles[p] = new Engine.Particle(
-				(this.width / 4) + mod * i + (i / 4 - rand(0, i / 2)),
+				(this.width / 3.5) + mod * i + (i / 4 - rand(0, i / 2)),
 				row * i + (i / 4 - rand(0, i / 2))
 			);
 		}
