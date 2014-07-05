@@ -21,12 +21,12 @@ Engine = Base.extend({
 	scale: window.devicePixelRatio || 1,
 
 	// Default settings
-	gravity: 1800,
-	smoothingRadius: 50,
+	gravity: 2000,
+	smoothingRadius: 56,
 	// stiff: 0.001,
-	stiff: 1500,
-	stiffN: 2630,
-	restDensity: 5.5,
+	stiff: 1425,
+	stiffN: 1920,
+	restDensity: 4.35,
 	totalParticles: 200,
 	frameCounter: 0,
 	radius: 4,
@@ -54,7 +54,7 @@ Engine = Base.extend({
 
 		this.totalParticles = Math.max(150, Math.min(this.totalParticles, 400));
 
-		i  = this.smoothingRadius / 2;
+		i  = this.smoothingRadius / 3;
 		rowCount = this.width / 2 / i >> 0;
 		rand = Engine.getRandomArbitrary;
 
