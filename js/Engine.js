@@ -29,7 +29,7 @@ Engine = Base.extend({
 	restDensity: 4.35,
 	totalParticles: 200,
 	frameCounter: 0,
-	radius: 4,
+	radius: 1,
 
 	particles: null,
 
