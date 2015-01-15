@@ -246,7 +246,6 @@ Engine = Base.extend({
 		// Iterate through particles and draw them
 		for (p = 0, len = particles.length; p < len; p++) {
 			particle = particles[p];
-
 			particle.draw(this.context, this.radius, scale);
 		}
 
